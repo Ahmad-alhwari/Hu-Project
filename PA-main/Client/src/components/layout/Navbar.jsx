@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiUser, FiLogOut } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import { FaChevronDown } from "react-icons/fa";
 import Login from "../../pages/Login";
 import Signup from "../../pages/Signup";
 import Logo from "../../assets/Svg/Screenshot_from_2024-12-02_13-16-17-removebg-preview.svg";
-import { ShoppingCart } from "lucide-react";
+import { ChevronDown, ShoppingCart } from "lucide-react";
 
 import { ToastContainer } from "react-toastify";
 
@@ -21,6 +21,7 @@ const Navbar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const menuRef = useRef(null);
 
@@ -28,9 +29,22 @@ const Navbar = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  const handleProfileClick = () => {
-    setDropdownOpen(false);
+  const toggleDropdown1 = () => {
+    setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleClickOutside = (event) => {
     if (
@@ -108,16 +122,62 @@ const Navbar = () => {
                   Our Shop
                 </NavLink>
               </li>{" "}
+              <li className="relative" ref={dropdownRef}>
+                {/* Adoption Link with Arrow */}
+                <div
+                  onClick={toggleDropdown1}
+                  className="cursor-pointer text-gray-700 hover:text-gray-900 flex items-center gap-1"
+                >
+                  Adoption
+                  <ChevronDown
+                    className={`transition-transform duration-200 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+
+                {/* Dropdown Menu */}
+                {isOpen && (
+                  <ul className="absolute -left-12 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                    <li>
+                      <NavLink
+                        to="/adoption/cats"
+                        className={({ isActive }) =>
+                          `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
+                            isActive ? "font-bold underline" : ""
+                          }`
+                        }
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Cats
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/adoption/dogs"
+                        className={({ isActive }) =>
+                          `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
+                            isActive ? "font-bold underline" : ""
+                          }`
+                        }
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Dogs
+                      </NavLink>
+                    </li>
+                  </ul>
+                )}
+              </li>
               <li>
                 <NavLink
-                  to="/adoption"
+                  to="/treatment"
                   className={({ isActive }) =>
                     isActive
                       ? "text-gray-900 underline font-bold"
                       : "text-gray-700 hover:text-gray-900"
                   }
                 >
-                  Adoption
+                  Treatment
                 </NavLink>
               </li>
               <li>
@@ -142,18 +202,6 @@ const Navbar = () => {
                   }
                 >
                   Get In Touch
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/treatment"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-gray-900 underline font-bold"
-                      : "text-gray-700 hover:text-gray-900"
-                  }
-                >
-                  Treatment
                 </NavLink>
               </li>
               <li>
@@ -336,9 +384,75 @@ const Navbar = () => {
                       Our Shop
                     </NavLink>
                   </li>{" "}
+                  <li className="px-6 py-3" ref={dropdownRef}>
+                    {/* Adoption Link with Arrow */}
+                    <div
+                      className="cursor-pointer flex items-center gap-1"
+                      onClick={toggleDropdown1}
+                    >
+                      <NavLink
+                        to="/adoption"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
+                            : "block text-gray-700 hover:text-gray-900 pl-4"
+                        }
+                        onClick={toggleMobileMenu}
+                      >
+                        Adoption
+                      </NavLink>
+                      <ChevronDown
+                        className={`transition-transform duration-200 ${
+                          isOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </div>
+
+                    {/* Dropdown Menu */}
+                    {isOpen && (
+                      <ul className="pl-8 mt-2 space-y-2">
+                        <li>
+                          <NavLink
+                            to="/adoption/cats"
+                            className={({ isActive }) =>
+                              `block text-gray-700 hover:text-gray-900 ${
+                                isActive
+                                  ? "font-semibold border-l-4 border-[#060640] pl-4"
+                                  : "pl-4"
+                              }`
+                            }
+                            onClick={() => {
+                              toggleMobileMenu();
+                              setIsOpen(false);
+                            }}
+                          >
+                            Cats
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink
+                            to="/adoption/dogs"
+                            className={({ isActive }) =>
+                              `block text-gray-700 hover:text-gray-900 ${
+                                isActive
+                                  ? "font-semibold border-l-4 border-[#060640] pl-4"
+                                  : "pl-4"
+                              }`
+                            }
+                            onClick={() => {
+                              toggleMobileMenu();
+                              setIsOpen(false);
+                            }}
+                          >
+                            Dogs
+                          </NavLink>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
                   <li className="px-6 py-3">
                     <NavLink
-                      to="/adoption"
+                      to="/treatment"
                       className={({ isActive }) =>
                         isActive
                           ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
@@ -346,9 +460,9 @@ const Navbar = () => {
                       }
                       onClick={toggleMobileMenu}
                     >
-                      Adoption
+                      Treatment
                     </NavLink>
-                  </li>{" "}
+                  </li>
                   <li className="px-6 py-3">
                     <NavLink
                       to="/about"
@@ -375,19 +489,6 @@ const Navbar = () => {
                       Get In Touch
                     </NavLink>
                   </li>{" "}
-                  <li className="px-6 py-3">
-                    <NavLink
-                      to="/treatment"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
-                          : "block text-gray-700 hover:text-gray-900  pl-4"
-                      }
-                      onClick={toggleMobileMenu}
-                    >
-                      Treatment
-                    </NavLink>
-                  </li>
                 </ul>
               </motion.div>
             </>

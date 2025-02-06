@@ -22,6 +22,7 @@ import Shop from "./pages/Shop";
 import Checkout from "./pages/CheckOut";
 import Adoption from "./pages/Adoption";
 import Treatment from "./pages/Treatment";
+import AddAdoption from "./pages/AddAdoption";
 
 import { CartProvider } from "./hooks/CartContext";
 import SetNewPassword from "./pages/SetNewPassword";
@@ -70,8 +71,9 @@ const App = () => {
             <Route path="/set-new-password" element={<SetNewPassword />} />
             <Route path="/verify-otp/:email" element={<VerifyEmailOTPPage />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/add-adoption" element={<AddAdoption />} />
             <Route path="/treatment" element={<Treatment />} />
-            <Route path="/adoption" element={<Adoption />} />
+            <Route path="/adoption/:animal" element={<Adoption />} />
             <Route path="/signup" element={<Signup setUser={setUser} />} />
             <Route path="/Login" element={<Login setUser={setUser} />} />
           </Routes>
