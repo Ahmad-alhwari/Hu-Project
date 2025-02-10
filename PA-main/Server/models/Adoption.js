@@ -23,9 +23,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-      title: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      isVaccinated: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       category: {
         type: DataTypes.STRING,
@@ -51,6 +60,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: "pending",
+      },
+      isPurchased: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
         type: DataTypes.DATE,

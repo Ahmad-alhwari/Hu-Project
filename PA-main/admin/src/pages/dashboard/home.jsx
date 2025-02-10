@@ -7,6 +7,7 @@ import { statisticsChartsData } from "@/data";
 import { ClockIcon } from "@heroicons/react/24/solid";
 import { UsersIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import Contact from "@/widgets/components/contact";
+import Clinic from "@/widgets/components/ClinicForm";
 
 export function Home() {
   const [userDataLength, setUserDataLength] = useState(null);
@@ -98,6 +99,7 @@ export function Home() {
         </div>
       </div>
       <Contact />
+      <Clinic />
     </>
   );
 }

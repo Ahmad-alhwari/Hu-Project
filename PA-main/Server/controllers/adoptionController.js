@@ -3,7 +3,8 @@ const { Adoption } = require("../models");
 
 const createAdoption = async (req, res) => {
   try {
-    const { title, category, description, phoneNumber } = req.body;
+    const { name, type, isVaccinated, category, description, phoneNumber } =
+      req.body;
     const userId = req.userId;
 
     if (
@@ -21,13 +22,15 @@ const createAdoption = async (req, res) => {
 
     const newAdoption = await Adoption.create({
       userId,
-      title,
+      name,
+      type,
+      isVaccinated: isVaccinated === "true",
       category,
       description,
       phoneNumber,
       mainImage,
       subImages,
-      status: "pending", // Set default status to 'pending'
+      status: "pending",
     });
 
     res.status(201).json({
@@ -78,36 +81,39 @@ const getAdoptionById = async (req, res) => {
 
 const updateAdoption = async (req, res) => {
   try {
-    const { title, category, description, phoneNumber, id } = req.body;
-    const AdoptionId = id;
+    const { id, name, type, isVaccinated, category, description, phoneNumber } =
+      req.body;
     const userId = req.userId;
 
-    const Adoption = await Adoption.findOne({
-      where: { id: AdoptionId, userId },
+    const adoption = await Adoption.findOne({
+      where: { id, userId },
     });
 
-    if (!Adoption) {
+    if (!adoption) {
       return res.status(404).json({ message: "Adoption not found" });
     }
 
-    if (title) Adoption.title = title;
-    if (category) Adoption.category = category;
-    if (description) Adoption.description = description;
-    if (phoneNumber) Adoption.phoneNumber = phoneNumber;
+    if (name) adoption.name = name;
+    if (type) adoption.type = type;
+    if (isVaccinated !== undefined)
+      adoption.isVaccinated = isVaccinated === "true";
+    if (category) adoption.category = category;
+    if (description) adoption.description = description;
+    if (phoneNumber) adoption.phoneNumber = phoneNumber;
 
     if (req.files && req.files.mainImage) {
-      Adoption.mainImage = req.files.mainImage[0].path;
+      adoption.mainImage = req.files.mainImage[0].path;
     }
 
     if (req.files && req.files.subImages) {
-      Adoption.subImages = req.files.subImages.map((file) => file.path);
+      adoption.subImages = req.files.subImages.map((file) => file.path);
     }
 
-    await Adoption.save();
+    await adoption.save();
 
     res.status(200).json({
       message: "Adoption updated successfully",
-      Adoption,
+      adoption,
     });
   } catch (error) {
     console.error("Adoption update error:", error);
@@ -126,13 +132,13 @@ const deleteAdoption = async (req, res) => {
       return res.status(400).json({ message: "Adoption ID is required" });
     }
 
-    const Adoption = await Adoption.findOne({ where: { id, userId } });
+    const adoption = await Adoption.findOne({ where: { id, userId } });
 
-    if (!Adoption) {
+    if (!adoption) {
       return res.status(404).json({ message: "Adoption not found" });
     }
 
-    await Adoption.destroy();
+    await adoption.destroy();
     res.status(200).json({ message: "Adoption deleted successfully" });
   } catch (error) {
     console.error("Adoption deletion error:", error);
@@ -150,6 +156,7 @@ const getAdoptionsByCategory = async (req, res) => {
       where: {
         category,
         status: "approved",
+        isPurchased: false,
       },
     });
 

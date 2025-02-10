@@ -1,12 +1,19 @@
-import React from "react";
-import { Clock, Phone, Calendar, MapPin, PawPrint } from "lucide-react";
+import React, { useRef } from "react";
+import { Calendar, PawPrint } from "lucide-react";
 import Services from "../components/Treatment/Services";
 import Appointment from "../components/Treatment/Appointment";
 import TreatmentFooter from "../components/Treatment/TreatmentFooter";
-
 import TreatmentHero from "../assets/Image/Treatment.jpg";
 
 const Treatment = () => {
+  const appointmentRef = useRef(null);
+
+  const handleScrollToAppointment = () => {
+    if (appointmentRef.current) {
+      appointmentRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-rose-50 to-pink-50">
       {/* Hero Section */}
@@ -31,7 +38,10 @@ const Treatment = () => {
                 Where Love Meets Expert Pet Care - Professional Treatment
                 Services for Your Beloved Companions
               </p>
-              <button className="mt-8 px-8 py-3 bg-rose-600 text-white rounded-full hover:bg-rose-700 transform hover:scale-105 transition-all duration-200 flex items-center justify-center mx-auto">
+              <button
+                onClick={handleScrollToAppointment}
+                className="mt-8 px-8 py-3 bg-rose-600 text-white rounded-full hover:bg-rose-700 transform hover:scale-105 transition-all duration-200 flex items-center justify-center mx-auto"
+              >
                 <Calendar className="w-5 h-5 mr-2" />
                 Book a Consultation
               </button>
@@ -42,8 +52,12 @@ const Treatment = () => {
 
       {/* Services Grid */}
       <Services />
+
       {/* Appointment Form */}
-      <Appointment />
+      <div ref={appointmentRef}>
+        <Appointment />
+      </div>
+
       {/* Footer */}
       <TreatmentFooter />
     </div>

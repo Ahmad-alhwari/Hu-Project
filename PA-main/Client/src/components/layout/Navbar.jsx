@@ -154,6 +154,19 @@ const Navbar = () => {
                     </li>
                     <li>
                       <NavLink
+                        to="/adoption/kittens"
+                        className={({ isActive }) =>
+                          `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
+                            isActive ? "font-bold underline" : ""
+                          }`
+                        }
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Kittens
+                      </NavLink>
+                    </li>{" "}
+                    <li>
+                      <NavLink
                         to="/adoption/dogs"
                         className={({ isActive }) =>
                           `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
@@ -163,6 +176,19 @@ const Navbar = () => {
                         onClick={() => setIsOpen(false)}
                       >
                         Dogs
+                      </NavLink>
+                    </li>{" "}
+                    <li>
+                      <NavLink
+                        to="/adoption/puppies"
+                        className={({ isActive }) =>
+                          `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
+                            isActive ? "font-bold underline" : ""
+                          }`
+                        }
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Puppies
                       </NavLink>
                     </li>
                   </ul>
@@ -445,6 +471,42 @@ const Navbar = () => {
                             }}
                           >
                             Dogs
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink
+                            to="/adoption/kittens"
+                            className={({ isActive }) =>
+                              `block text-gray-700 hover:text-gray-900 ${
+                                isActive
+                                  ? "font-semibold border-l-4 border-[#060640] pl-4"
+                                  : "pl-4"
+                              }`
+                            }
+                            onClick={() => {
+                              toggleMobileMenu();
+                              setIsOpen(false);
+                            }}
+                          >
+                            Kittens
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink
+                            to="/adoption/puppies"
+                            className={({ isActive }) =>
+                              `block text-gray-700 hover:text-gray-900 ${
+                                isActive
+                                  ? "font-semibold border-l-4 border-[#060640] pl-4"
+                                  : "pl-4"
+                              }`
+                            }
+                            onClick={() => {
+                              toggleMobileMenu();
+                              setIsOpen(false);
+                            }}
+                          >
+                            Puppies
                           </NavLink>
                         </li>
                       </ul>

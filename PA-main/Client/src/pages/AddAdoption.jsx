@@ -4,9 +4,11 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 const AddAdoption = () => {
-  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [isVaccinated, setIsVaccinated] = useState(false);
+  const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("cats");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [image, setImage] = useState(null);
   const [subImages, setSubImages] = useState([]);
@@ -16,7 +18,7 @@ const AddAdoption = () => {
 
   const guidelines = [
     "Ensure all images are clear and well-lit",
-    "Provide accurate and detailed description of the pet",
+    "Provide accurate and detailed description of the pet like if it homless or your bet",
     "Include any special needs or medical conditions",
     "Be honest about the pet's temperament and behavior",
     "Provide accurate contact information",
@@ -27,10 +29,10 @@ const AddAdoption = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!title.trim()) {
-      newErrors.title = "Title is required";
-    } else if (title.length < 3) {
-      newErrors.title = "Title must be at least 3 characters long";
+    if (!name.trim()) {
+      newErrors.name = "name is required";
+    } else if (name.length < 3) {
+      newErrors.name = "name must be at least 3 characters long";
     }
 
     if (!description.trim()) {
@@ -100,10 +102,12 @@ const AddAdoption = () => {
 
     const token = localStorage.getItem("authToken");
     const formData = new FormData();
-    formData.append("title", title);
+    formData.append("name", name);
     formData.append("description", description);
     formData.append("category", category);
     formData.append("phoneNumber", phoneNumber);
+    formData.append("type", type);
+    formData.append("isVaccinated", isVaccinated);
     if (image) {
       formData.append("mainImage", image);
     }
@@ -125,7 +129,7 @@ const AddAdoption = () => {
 
       if (response.status === 201) {
         Swal.fire({
-          title: "Success!",
+          name: "Success!",
           text: "Adoption listing added successfully.",
           icon: "success",
           confirmButtonText: "OK",
@@ -136,7 +140,7 @@ const AddAdoption = () => {
     } catch (error) {
       console.error("Error creating adoption:", error);
       Swal.fire({
-        title: "Error",
+        name: "Error",
         text: "Failed to add adoption listing.",
         icon: "error",
         confirmButtonText: "Try Again",
@@ -179,18 +183,30 @@ const AddAdoption = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Title
+              pet's name
             </label>
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 
-                ${errors.title ? "border-red-500" : "border-gray-300"}`}
+                ${errors.name ? "border-red-500" : "border-gray-300"}`}
             />
-            {errors.title && (
+            {errors.name && (
               <p className="mt-1 text-sm text-red-600">{errors.title}</p>
             )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Pet Type
+            </label>
+            <input
+              type="text"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
+              placeholder="Enter pet type (e.g., cat, dog)"
+            />
           </div>
 
           <div>
@@ -219,7 +235,9 @@ const AddAdoption = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
             >
               <option value="cats">Cats</option>
-              <option value="dogs">Dogs</option>
+              <option value="dogs">Dogs</option>{" "}
+              <option value="kittens">Kittens</option>
+              <option value="puppies">Puppies</option>
             </select>
           </div>
 
@@ -237,6 +255,17 @@ const AddAdoption = () => {
             {errors.phoneNumber && (
               <p className="mt-1 text-sm text-red-600">{errors.phoneNumber}</p>
             )}
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={isVaccinated}
+              onChange={(e) => setIsVaccinated(e.target.checked)}
+              className="h-5 w-5 text-rose-600 border-gray-300 rounded focus:ring-rose-500"
+            />
+            <label className="ml-2 text-sm font-medium text-gray-700">
+              Is Vaccinated?
+            </label>
           </div>
 
           <div>

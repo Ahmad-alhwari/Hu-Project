@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Heart, PawPrint, Shield, Clock } from "lucide-react";
-import Hero from "../assets/Image/AdoptionHero.jpg";
 
 import AdoptionModal from "../components/adoption/AdoptionModal";
 
@@ -20,15 +19,14 @@ const AdoptionPage = () => {
         );
         const data = await response.json();
 
-        // Ensure adoptionData is always an array
         if (Array.isArray(data)) {
           setAdoptionData(data);
         } else {
-          setAdoptionData([]); // Set to empty array if data is not an array
+          setAdoptionData([]);
         }
       } catch (error) {
         console.error("Error fetching adoption data:", error);
-        setAdoptionData([]); // Set to empty array on error
+        setAdoptionData([]);
       }
     };
 
@@ -37,7 +35,7 @@ const AdoptionPage = () => {
 
   const content = {
     cats: {
-      title: "Adopt a Loving Cat Companion",
+      title: "Adopt a Loving Cat",
       description:
         "Open your heart and home to a furry friend. Our cats are carefully selected, fully vaccinated, and ready to bring joy to your life. Each adoption includes veterinary checks, microchipping, and ongoing support.",
       features: [
@@ -46,6 +44,8 @@ const AdoptionPage = () => {
         "Behavioral assessment completed",
         "Post-adoption support included",
       ],
+      image:
+        "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNhdHxlbnwwfHwwfHx8MA%3D%3D",
     },
     dogs: {
       title: "Find Your Perfect Canine Match",
@@ -57,6 +57,34 @@ const AdoptionPage = () => {
         "Temperament tested",
         "Lifetime support guarantee",
       ],
+      image:
+        "https://plus.unsplash.com/premium_photo-1677545183884-421157b2da02?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2F0fGVufDB8fDB8fHww",
+    },
+    kittens: {
+      title: "Adorable Kittens Seeking Homes",
+      description:
+        "Fall in love with our playful and cuddly kittens. Carefully socialized and raised with love, these little bundles of joy are ready to become your newest family member. Each kitten comes with comprehensive early care.",
+      features: [
+        "Age-appropriate vaccinations",
+        "Early socialization",
+        "Health certificate provided",
+        "Starter kit included",
+      ],
+      image:
+        "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2F0fGVufDB8fDB8fHww",
+    },
+    puppies: {
+      title: "Puppies Ready for Their Forever Homes",
+      description:
+        "Bring home a bundle of energy and love. Our puppies are carefully bred, early-socialized, and prepared for a lifetime of companionship. Each puppy receives exceptional care and support.",
+      features: [
+        "First round of puppy vaccinations",
+        "Early socialization program",
+        "Breed-specific health checks",
+        "Puppy starter package",
+      ],
+      image:
+        "https://plus.unsplash.com/premium_photo-1707353401897-da9ba223f807?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNhdHxlbnwwfHwwfHx8MA%3D%3D",
     },
   };
 
@@ -78,7 +106,6 @@ const AdoptionPage = () => {
     );
   }
 
-  // Pagination Logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = adoptionData.slice(indexOfFirstItem, indexOfLastItem);
@@ -115,14 +142,14 @@ const AdoptionPage = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div>
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                <h1 className="text-4xl md:text-5xl font-bold text-[#FA5990] leading-tight">
                   {heroContent.title}
                 </h1>
                 <p className="mt-4 text-lg text-gray-600 leading-relaxed">
                   {heroContent.description}
                 </p>
                 <Link to="/add-adoption">
-                  <button className="mt-6 px-6 py-3 text-white bg-rose-500 rounded-full shadow-lg hover:bg-rose-600 transition duration-300">
+                  <button className="mt-6 px-6 py-3 text-white bg-[#FA5990] rounded-full shadow-lg hover:bg-[#fa598fa2] transition duration-300">
                     Add Animal to Adopt
                   </button>
                 </Link>
@@ -131,7 +158,7 @@ const AdoptionPage = () => {
 
             <div className="relative">
               <img
-                src={Hero}
+                src={heroContent.image}
                 alt={`Adopt a ${animal}`}
                 className="rounded-2xl shadow-2xl w-full h-[25rem] transform hover:scale-105 transition duration-500"
               />
@@ -145,7 +172,7 @@ const AdoptionPage = () => {
       {adoptionData && adoptionData.length > 0 ? (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">
+            <h2 className="text-3xl font-bold text-[#FA5990]">
               Available {animal.charAt(0).toUpperCase() + animal.slice(1)} for
               Adoption
             </h2>
@@ -238,7 +265,7 @@ const AdoptionPage = () => {
         </div>
       ) : (
         <div className="text-center py-16">
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className="text-2xl font-semibold text-[#FA5990]">
             No adoption yet
           </h2>
           <p className="text-gray-600 mt-4">
@@ -251,7 +278,7 @@ const AdoptionPage = () => {
       {/* Features Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-[#FA5990]">
             Why Choose Our Adoption Program?
           </h2>
           <p className="mt-4 text-gray-600">
@@ -275,7 +302,7 @@ const AdoptionPage = () => {
         </div>
 
         <div className="mt-12 bg-gray-50 rounded-2xl p-8">
-          <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+          <h3 className="text-2xl font-semibold text-[#FA5990] mb-6">
             What's Included
           </h3>
           <div className="grid md:grid-cols-2 gap-4">

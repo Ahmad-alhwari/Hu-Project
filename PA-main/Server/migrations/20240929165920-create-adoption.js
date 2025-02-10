@@ -18,9 +18,18 @@ module.exports = {
         onDelete: "SET NULL",
         allowNull: true,
       },
-      title: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      type: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      isVaccinated: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       category: {
         type: Sequelize.STRING,
@@ -46,6 +55,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         defaultValue: "pending",
+      },
+      isPurchased: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,

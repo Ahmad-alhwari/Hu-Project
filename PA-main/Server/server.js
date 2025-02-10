@@ -12,6 +12,7 @@ const OrderRoutes = require("./routes/orderRoutes");
 const userRoutes = require("./routes/userRoutes");
 const AdoptionRoutes = require("./routes/adoptionRoutes");
 const adoptionOrderRoutes = require("./routes/adoptionOrderRoutes");
+const clinicRoutes = require("./routes/clinicRoutes");
 
 dotenv.config();
 
@@ -32,7 +33,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(
   cors({
-    origin: ["http://localhost:5173/", "http://localhost:5174/"],
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,
   })
 );
@@ -46,6 +47,7 @@ app.use("/api", OrderRoutes);
 app.use("/api", userRoutes);
 app.use("/api", AdoptionRoutes);
 app.use("/api", adoptionOrderRoutes);
+app.use("/api", clinicRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
