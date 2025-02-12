@@ -1,8 +1,22 @@
 "use strict";
+const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  const AdoptionOrder = sequelize.define(
-    "AdoptionOrder",
+  class AdoptionOrder extends Model {
+    static associate(models) {
+      AdoptionOrder.belongsTo(models.User, {
+        foreignKey: "user_id",
+        as: "user",
+      });
+
+      AdoptionOrder.belongsTo(models.Adoption, {
+        foreignKey: "adoption_id",
+        as: "adoption",
+      });
+    }
+  }
+
+  AdoptionOrder.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -14,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "Users",
+          model: "users", // Ensure this matches the actual table name
           key: "id",
         },
         onUpdate: "CASCADE",
@@ -24,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "Adoption",
+          model: "Adoptions", // Ensure this matches the actual table name
           key: "id",
         },
         onUpdate: "CASCADE",
@@ -45,25 +59,20 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true,
         },
       },
+      status: {
+        type: DataTypes.ENUM("pending", "approved", "rejected"),
+        allowNull: false,
+        defaultValue: "pending",
+      },
     },
     {
+      sequelize,
+      modelName: "AdoptionOrder",
       tableName: "adoption_orders",
       timestamps: true,
       underscored: true,
     }
   );
-
-  AdoptionOrder.associate = (models) => {
-    AdoptionOrder.belongsTo(models.User, {
-      foreignKey: "user_id",
-      as: "user",
-    });
-
-    AdoptionOrder.belongsTo(models.Adoption, {
-      foreignKey: "adoption_id",
-      as: "adoption",
-    });
-  };
 
   return AdoptionOrder;
 };

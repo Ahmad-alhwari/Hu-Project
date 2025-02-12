@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { Home } from "@/pages/dashboard";
 import Users from "@/pages/dashboard/Users";
-import AllService from "@/pages/dashboard/AllService";
+//import AllService from "@/pages/dashboard/AllService";
 import Message from "@/pages/dashboard/Message";
 import Product from "./pages/dashboard/Product";
 import { SignIn } from "@/pages/auth";
