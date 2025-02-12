@@ -1,86 +1,74 @@
 "use strict";
-const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Adoption extends Model {
-    static associate(models) {
-      Adoption.belongsTo(models.User, {
-        foreignKey: "userId",
-        as: "user",
-      });
-    }
-  }
-
-  Adoption.init(
+  const AdoptionOrder = sequelize.define(
+    "AdoptionOrder",
     {
       id: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false,
       },
-      userId: {
+      user_id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      adoption_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Adoption",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      type: {
+      phone_number: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      isVaccinated: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
-      category: {
+      email: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      description: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-      mainImage: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      subImages: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: true,
-      },
-      phoneNumber: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        validate: {
+          isEmail: true,
+        },
       },
       status: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("pending", "approved", "rejected"),
         allowNull: false,
         defaultValue: "pending",
       },
-      isPurchased: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
     },
     {
-      sequelize,
-      modelName: "Adoption",
-      tableName: "Adoption",
+      tableName: "adoption_orders",
+      timestamps: true,
+      underscored: true,
     }
   );
 
-  return Adoption;
+  AdoptionOrder.associate = (models) => {
+    AdoptionOrder.belongsTo(models.User, {
+      foreignKey: "user_id",
+      as: "user",
+    });
+
+    AdoptionOrder.belongsTo(models.Adoption, {
+      foreignKey: "adoption_id",
+      as: "adoption",
+    });
+  };
+
+  return AdoptionOrder;
 };

@@ -132,7 +132,7 @@ const Shop = () => {
 
           {/* Category Buttons */}
           <div className="flex space-x-2">
-            {["all", "accessories", "food", "litter"].map((category) => (
+            {["all", "Accessories", "Food", "Litter"].map((category) => (
               <button
                 key={category}
                 className={`px-6 py-2 rounded-lg text-black font-semibold transition-all duration-300 ${

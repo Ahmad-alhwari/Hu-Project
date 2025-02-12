@@ -10,7 +10,7 @@ const FeaturedSection = () => {
             Our featured
           </h2>
           <Link
-            to="category/list"
+            to="shop"
             className="flex items-center text-gray-600 hover:underline mt-4 sm:mt-0"
           >
             <span className="mr-2 text-[#515161]">See all resources</span>

@@ -82,8 +82,8 @@ const getServiceById = async (req, res) => {
 
 const updateService = async (req, res) => {
   try {
-    const { title, category, description, price, id } = req.body;
-    const serviceId = id;
+    const { title, category, description, price } = req.body;
+    const serviceId = req.params.id;
     const userId = req.userId;
 
     const service = await Services.findOne({
@@ -123,7 +123,7 @@ const updateService = async (req, res) => {
 
 const deleteService = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     const userId = req.userId;
 
     if (!id) {

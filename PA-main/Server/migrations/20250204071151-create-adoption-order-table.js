@@ -44,6 +44,11 @@ module.exports = {
           isEmail: true,
         },
       },
+      status: {
+        type: Sequelize.ENUM("pending", "approved", "rejected"),
+        allowNull: false,
+        defaultValue: "pending",
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,

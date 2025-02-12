@@ -23,7 +23,7 @@ router.post(
 );
 router.get("/all-services", getAllServices);
 router.put(
-  "/services-edit/",
+  "/services-edit/:id",
   verifyToken,
   upload.fields([
     { name: "mainImage", maxCount: 1 },
@@ -34,6 +34,5 @@ router.put(
 
 router.get("/services/:id", getServiceById);
 
-router.delete("/services-delete", verifyToken, deleteService);
-
+router.delete("/services-delete/:id", verifyToken, deleteService);
 module.exports = router;

@@ -13,6 +13,7 @@ const userRoutes = require("./routes/userRoutes");
 const AdoptionRoutes = require("./routes/adoptionRoutes");
 const adoptionOrderRoutes = require("./routes/adoptionOrderRoutes");
 const clinicRoutes = require("./routes/clinicRoutes");
+const clinicOrderRoutes = require("./routes/clinicOrderRoutes");
 
 dotenv.config();
 
@@ -48,6 +49,7 @@ app.use("/api", userRoutes);
 app.use("/api", AdoptionRoutes);
 app.use("/api", adoptionOrderRoutes);
 app.use("/api", clinicRoutes);
+app.use("/api", clinicOrderRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

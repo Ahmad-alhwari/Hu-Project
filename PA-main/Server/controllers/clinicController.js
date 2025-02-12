@@ -53,9 +53,29 @@ const updateClinic = async (req, res) => {
   }
 };
 
+const getClinicWorkingHours = async (req, res) => {
+  try {
+    const clinicId = req.params.id;
+    const clinic = await Clinic.findByPk(clinicId, {
+      attributes: ["workingHours"],
+    });
+
+    if (!clinic) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Clinic not found" });
+    }
+
+    res.status(200).json({ success: true, data: clinic.workingHours });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   addClinic,
   getAllClinics,
   getClinicById,
   updateClinic,
+  getClinicWorkingHours,
 };

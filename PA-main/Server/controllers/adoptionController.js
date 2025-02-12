@@ -47,16 +47,21 @@ const createAdoption = async (req, res) => {
 
 const getAllAdoptions = async (req, res) => {
   try {
-    const adoptions = await Adoption.findAll();
+    const adoptions = await Adoption.findAll({
+      where: { isPurchased: false },
+    });
+
     if (adoptions.length === 0) {
-      return res.status(404).json({ message: "No Adoptions found." });
+      return res.status(404).json({ message: "No available adoptions found." });
     }
+
     res.status(200).json(adoptions);
   } catch (error) {
     console.error("Error retrieving Adoption:", error);
-    res
-      .status(500)
-      .json({ message: "Error retrieving Adoption", error: error.message });
+    res.status(500).json({
+      message: "Error retrieving Adoption",
+      error: error.message,
+    });
   }
 };
 

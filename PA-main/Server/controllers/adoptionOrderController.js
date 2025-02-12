@@ -40,10 +40,8 @@ const createAdoptionOrder = async (req, res) => {
         .json({ message: "This adoption has already been purchased." });
     }
 
-    // Log the current value of isPurchased
     console.log("Current isPurchased status:", adoption.isPurchased);
 
-    // Attempt to update without the `isPurchased: false` condition
     const [updated] = await Adoption.update(
       { isPurchased: true },
       { where: { id: adoption_id }, transaction: t }

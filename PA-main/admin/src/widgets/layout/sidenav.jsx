@@ -27,10 +27,9 @@ export function Sidenav({ brandImg, brandName, routes }) {
   const adminPaths = [
     "/home",
     "/users",
-    // "/business",
+    "/product",
     "/all-service",
     "/message",
-    // "/all-reviews",
   ];
 
   const handleLogout = () => {

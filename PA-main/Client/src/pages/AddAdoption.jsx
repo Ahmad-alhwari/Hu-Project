@@ -96,11 +96,23 @@ const AddAdoption = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      Swal.fire({
+        title: "Login Required",
+        text: "You must be logged in to submit an adoption listing. Please log in and try again.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/");
+      });
+      return;
+    }
+
     if (!validateForm()) {
       return;
     }
 
-    const token = localStorage.getItem("authToken");
     const formData = new FormData();
     formData.append("name", name);
     formData.append("description", description);
@@ -129,7 +141,7 @@ const AddAdoption = () => {
 
       if (response.status === 201) {
         Swal.fire({
-          name: "Success!",
+          title: "Success!",
           text: "Adoption listing added successfully.",
           icon: "success",
           confirmButtonText: "OK",
@@ -140,7 +152,7 @@ const AddAdoption = () => {
     } catch (error) {
       console.error("Error creating adoption:", error);
       Swal.fire({
-        name: "Error",
+        title: "Error",
         text: "Failed to add adoption listing.",
         icon: "error",
         confirmButtonText: "Try Again",

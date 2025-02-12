@@ -65,13 +65,13 @@ const CategoryCard = ({
 const CategorySectoin = () => {
   return (
     <>
-      <div className="pt-[50rem] mt-16 px-4 sm:px-8 lg:pt-16 xl:px-40">
+      <div className=" mt-16 px-4 sm:px-8 lg:pt-16 xl:px-40">
         <div className="flex flex-col sm:flex-row sm:justify-between items-center">
           <h2 className="text-lg sm:text-xl mr-4 font-semibold text-[#060640]">
             Top Categories
           </h2>
           <Link
-            to="category/list"
+            to="shop"
             className="flex items-center text-gray-600 hover:underline mt-4 sm:mt-0"
           >
             <span className="mr-2 text-[#515161]">See all resources</span>
